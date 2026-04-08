@@ -1,4 +1,19 @@
 :root {
+  /* Colors */
+  --color-primary: #213547;
+  --color-primary-light: #646cff;
+  --color-background: #f5f5f5;
+  --color-surface: white;
+  --color-text-primary: #213547;
+  --color-text-secondary: #666;
+  --color-text-muted: #888;
+  --color-border: #e0e0e0;
+  --color-error-bg: #fee;
+  --color-error-border: #fcc;
+  --color-error-text: #c33;
+  --color-discount: #ff4444;
+
+  /* Typography */
   font-family:
     system-ui,
     -apple-system,
@@ -13,8 +28,8 @@
   font-weight: 400;
 
   color-scheme: light;
-  color: #213547;
-  background-color: #f5f5f5;
+  color: var(--color-primary);
+  background-color: var(--color-background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
