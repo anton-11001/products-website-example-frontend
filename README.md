@@ -1,73 +1,118 @@
-# React + TypeScript + Vite
+# Products Catalog Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small frontend app built with React, TypeScript, and Vite that displays products from the DummyJSON API.
 
-Currently, two official plugins are available:
+The app supports:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- product listing
+- debounced search
+- pagination
+- loading, empty, and error states
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- TypeScript
+- Vite
+- ESLint
+- Prettier
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+- Node.js 18+ recommended
+- npm
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Install dependencies
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Start the development server
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
-
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm run dev
 ```
+
+Then open the local URL shown by Vite in your terminal.
+
+## Available Scripts
+
+- `npm run dev` starts the Vite development server
+- `npm run build` runs TypeScript build checks and creates a production build
+- `npm run preview` serves the production build locally
+- `npm run lint` runs ESLint
+- `npm run lint:fix` runs ESLint and applies safe fixes
+- `npm run format` formats the project with Prettier
+
+## Features
+
+### Product list
+
+Products are loaded from the DummyJSON products endpoint and rendered as cards with:
+
+- thumbnail
+- title
+- brand
+- description
+- price
+- discount
+- rating
+- stock
+
+### Search
+
+- search input filters products using the API search endpoint
+- search requests are debounced by `1000ms`
+- clearing the search resets the list
+
+### Pagination
+
+- products are requested in pages of `10`
+- changing the search query resets pagination back to page `1`
+- pagination controls are hidden when there is only one page
+
+### States
+
+The UI handles:
+
+- loading state while requests are in progress
+- empty state when no products match the current query
+- error state when the API request fails
+
+## API
+
+This project uses the public DummyJSON API:
+
+- base URL: `https://dummyjson.com`
+- list endpoint: `/products`
+- search endpoint: `/products/search`
+
+Main configuration lives in [`src/constants/api.ts`](/c:/Users/krava/Projects/personal/products-website-example-frontend/src/constants/api.ts) and [`src/constants/search.ts`](/c:/Users/krava/Projects/personal/products-website-example-frontend/src/constants/search.ts).
+
+## Project Structure
+
+```text
+src/
+  api/          API request helpers
+  components/   UI components
+  constants/    Shared configuration values
+  hooks/        Custom React hooks
+  types/        TypeScript types
+  utils/        Small utility helpers
+```
+
+Important entry points:
+
+- [`src/App.tsx`](/c:/Users/krava/Projects/personal/products-website-example-frontend/src/App.tsx) wires search, pagination, and product loading together
+- [`src/hooks/useProducts.ts`](/c:/Users/krava/Projects/personal/products-website-example-frontend/src/hooks/useProducts.ts) handles fetching and search behavior
+- [`src/api/fetchProducts.ts`](/c:/Users/krava/Projects/personal/products-website-example-frontend/src/api/fetchProducts.ts) loads paginated products
+- [`src/api/searchProducts.ts`](/c:/Users/krava/Projects/personal/products-website-example-frontend/src/api/searchProducts.ts) loads paginated search results
+
+## Notes
+
+- No environment variables are required for local development
+- Data is fetched directly from a public external API
+- The current page size is controlled by the `LIMIT` constant
